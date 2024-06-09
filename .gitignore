@@ -1,0 +1,6 @@
+/nfl_evidence
+todo.txt
+.DS_Store
+nflfastR_db.duckdb
+.RData
+.Rhistory
