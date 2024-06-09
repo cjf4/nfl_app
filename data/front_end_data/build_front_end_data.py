@@ -1,6 +1,10 @@
 import duckdb
+import os
 
-con = duckdb.connect(database = "../nflfastR_db.duckdb"
+relative_path = '../nflfastr/nflfastR_db.duckdb'
+abs_path = os.path.abspath(relative_path)
+
+con = duckdb.connect(database = abs_path
                      , read_only = True)
 
 first_down_query = """
@@ -61,4 +65,4 @@ df = con.execute(first_down_query).df()
 
 df.to_parquet('first_down.parquet')
 
-duckdb.close(con)
+con.close()
