@@ -2,8 +2,10 @@
 library(nflfastR)
 library(DBI)
 library(duckdb)
+library(here)
 
-db_path <- "/Users/chris.fenton/projects/nfl_app/nfl_evidence/sources/nflfastR_db.duckdb"
+here::i_am("data/nflfastr/pbp_update.R")
+db_path <- here("data", "nflfastr", "nflfastR_db.duckdb")
 
 # Connect to DuckDB database
 con <- dbConnect(duckdb::duckdb(), db_path)
