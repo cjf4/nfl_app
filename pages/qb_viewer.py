@@ -5,7 +5,7 @@ import os
 
 import altair as alt
 
-relative_path = 'data/front_end_data/qb_epa.parquet'
+relative_path = 'data/front_end_data/parquet_files/qb_epa.parquet'
 abs_path = os.path.abspath(relative_path)
 df = pd.read_parquet(abs_path)
 

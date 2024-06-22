@@ -1,24 +1,25 @@
 import duckdb
 import os
+import glob
 
 relative_path = '../nflfastr/nflfastR_db.duckdb'
 abs_path = os.path.abspath(relative_path)
 
-con = duckdb.connect(database = abs_path
-                     , read_only = True)
+con = duckdb.connect(database=abs_path, read_only=True)
 
-with open('queries/first_down_query.sql') as f:
-    first_down_query = f.read()
+def run_query(file_path, connection):
+    output_dir = "parquet_files"
+    os.makedirs(output_dir, exist_ok=True)
+    output_file_root = os.path.join(output_dir, os.path.splitext(os.path.basename(file_path))[0] + '.parquet')
 
-df = con.execute(first_down_query).df()
+    with open(file_path) as f:
+        query = f.read()
+    
+    data = connection.execute(query).df()
+    data.to_parquet(output_file_root)
 
+query_files = glob.glob('queries/*.sql')
 
-df.to_parquet('first_down.parquet')
-
-with open('queries/qb_epa.sql') as f:
-    qb_epa_query = f.read()
-
-df = con.execute(qb_epa_query).df()
-df.to_parquet('qb_epa.parquet')
+[run_query(query, con) for query in query_files]
 
 con.close()
